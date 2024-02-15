@@ -51,4 +51,7 @@ module.exports = {
   "trailingComma": "all"
 }
 ```
-## 3.7代码管理
+## 3.7 代码管理
+## 3.8 流程化管理
+使用husky，按照文档更快捷的配置git hooks
+https://typicode.github.io/husky/get-started.html
