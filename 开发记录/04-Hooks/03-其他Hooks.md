@@ -1,16 +1,17 @@
 # 其他 Hooks
 
-## useRef
+## 5-11.useRef
 
 一般用于操作 DOM 元素，代码演示：src/pages/UseRefDemo1.tsx
 
 PS：useRef 也可以传入 JS 值，但更新时不会触发 rerender ，需替换为 useState
 
-## useMemo
+## 5-12.useMemo
 
+空间换时间，开辟一个缓存区，判断依赖是否改变，若改变就从缓存区把数据取出并使用。
 - 函数组件，默认，每次 state 变化都会重新执行
 - useMemo 可以缓存某个数据，不用每次都重新生成
-- 可用于计算量比较大的数据场景
+- 可用于计算量**比较大**的数据场景
 
 代码参考 pages/UseMemoAndCallback/UseMemoDemo1.tsx
 

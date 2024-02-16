@@ -16,7 +16,7 @@
 
 代码演示 src/hooks/useMousePosition.ts （直接在 App.tsx 中使用）
 
-## 异步获取信息
+## 5.16异步获取信息
 
 （再来个异步的）
 
@@ -27,3 +27,5 @@
 自定义 Hooks 可以抽离公共逻辑，复用到多个组件中 —— 这是 Hooks 设计的初衷
 
 在 Hooks 和函数组件之前，class 组件也有一些方法：mixin HOC render-prop 等，但都没有 Hooks 来的简单。
+
+一定要解绑

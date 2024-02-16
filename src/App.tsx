@@ -1,4 +1,3 @@
-// import React, { FC, useState, useEffect } from 'react'
 import React, { useState } from 'react'
 import './App.css'
 import { produce } from 'immer'
@@ -11,6 +10,9 @@ function App() {
     { id: 'q3', title: '问卷3', isPublished: false },
     { id: 'q4', title: '问卷4', isPublished: true },
   ])
+  //  自定义监听鼠标移动事件
+  // todo
+  // 模拟异步加载数据
   function add() {
     const r = Math.random().toString().slice(-3)
     setQuestionList(
