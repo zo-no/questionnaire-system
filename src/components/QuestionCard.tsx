@@ -1,80 +1,164 @@
-import React, { FC } from 'react'
-// import classnames from 'classnames'
-// import './QuestionCard.css'
-// import styles from './QuestionCard.module.scss'
+import React, { FC, useState } from 'react'
+import { useNavigate, Link } from 'react-router-dom'
+import styles from './QuestionCard.module.scss'
+import { Button, Space, Divider, Popconfirm, Modal, message } from 'antd'
+import {
+  EditOutlined,
+  LineChartOutlined,
+  StarOutlined,
+  CopyOutlined,
+  DeleteOutlined,
+  ExclamationCircleOutlined,
+} from '@ant-design/icons'
+// import { useRequest } from 'ahooks'
 
+const { confirm } = Modal
 // ts 自定义类型
 type PropsType = {
-  id: string
+  _id: string // 服务端 mongodb ，自动，_id 不重复
   title: string
+  isStar: boolean
   isPublished: boolean
-  deleteQuestion?: (id: string) => void
-  publishQuestion?: (id: string) => void
+  answerCount: number
+  createdAt: string
 }
 
 // FC - functional component
-const QuestionCard: FC<PropsType> = props => {
-  const { id, title, isPublished, deleteQuestion, publishQuestion } = props
+const QuestionCard: FC<PropsType> = (props: PropsType) => {
+  const nav = useNavigate()
+  const { _id, title, createdAt, answerCount, isPublished, isStar } = props
 
-  function publish(id: string) {
-    publishQuestion && publishQuestion(id)
-  }
-
-  function del(id: string) {
-    deleteQuestion && deleteQuestion(id)
-  }
-
-  // useEffect(() => {
-  //   console.log('question card mounted')
-
-  //   return () => {
-  //     console.log('question card unmounted', id) // 销毁
+  // 标星有关
+  const [isStarState, setIsStarState] = useState(isStar)
+  // const { loading: changeStarLoading, run: changeStar } = useRequest(
+  //   async () => {
+  //     await updateQuestionService(_id, { isStar: !isStarState })
+  //   },
+  //   {
+  //     manual: true,
+  //     onSuccess() {
+  //       setIsStarState(!isStarState) // 更新 state
+  //       message.success('已更新')
+  //     },
   //   }
+  // )
 
-  //   // 生命周期：创建，更新（state 变化），销毁
-  // }, [])
+  // 临时
+  const changeStar = () => {
+    setIsStarState(!isStarState) // 更新 state
+    message.success('已更新')
+  }
 
-  // let itemClassName = 'list-item'
-  // if (isPublished) itemClassName += ' published'
-  // // 逻辑稍微复杂
+  // 删除
+  // const [isDeletedState, setIsDeletedState] = useState(false)
+  // const { loading: deleteLoading, run: deleteQuestion } = useRequest(
+  //   // async () => await updateQuestionService(_id, { isDeleted: true }),
+  //   {
+  //     // manual: true,
+  //     onSuccess() {
+  //       message.success('删除成功')
+  //       setIsDeletedState(true)
+  //     },
+  //   }
+  // )
 
-  // const itemClassName = classnames('list-item', { published: isPublished })
-  // const itemClassName = classnames({
-  //   'list-item': true,
-  //   published: isPublished,
-  // })
+  function del() {
+    confirm({
+      title: '确定删除该问卷？',
+      icon: <ExclamationCircleOutlined />,
+      // onOk: deleteQuestion,
+    })
+  }
 
-  // const listItemClass = styles['list-item']
-  // const publishedClass = styles.published
-  // const itemClassName = classnames({
-  //   [listItemClass]: true,
-  //   [publishedClass]: isPublished,
-  // })
+  // 已经删除的问卷，不要再渲染卡片了
+  // if (isDeletedState) return null
 
   return (
-    // <div key={id} className={itemClassName}>
-    <div key={id}>
-      <strong>{title}</strong>
-      &nbsp;
-      {/* 条件判断 */}
-      {/* {isPublished ? <span className={styles['published-span']}>已发布</span> : <span>未发布</span>} */}
-      {isPublished ? <span style={{ color: 'green' }}>已发布</span> : <span>未发布</span>}
-      &nbsp;
-      <button
-        onClick={() => {
-          publish(id)
-        }}
-      >
-        发布问卷
-      </button>
-      &nbsp;
-      <button
-        onClick={() => {
-          del(id)
-        }}
-      >
-        删除问卷
-      </button>
+    <div className={styles.container}>
+      {/* 标题 */}
+      <div className={styles.title}>
+        {/* 星标 */}
+        <div className={styles.left}>
+          <Link to={isPublished ? `/question/stat/${_id}` : `/question/edit/${_id}`}>
+            <Space>
+              {isStarState && <StarOutlined style={{ color: 'red' }} />}
+              {title}
+            </Space>
+          </Link>
+        </div>
+        {/* 是否发布 */}
+        <div className={styles.right}>
+          <Space>
+            {isPublished ? <span style={{ color: 'green' }}>已发布</span> : <span>未发布</span>}
+            <span>答卷：{answerCount}</span>
+            <span>创建时间：{createdAt}</span>
+          </Space>
+        </div>
+      </div>
+
+      {/* 操作 */}
+      <Divider style={{ margin: '12px 0' }} />
+      <div className={styles['button-container']}>
+        <div className={styles.left}>
+          <Space>
+            <Button
+              icon={<EditOutlined />}
+              type="text"
+              size="small"
+              onClick={() => nav(`/question/edit/${_id}`)}
+            >
+              编辑问卷
+            </Button>
+            <Button
+              icon={<LineChartOutlined />}
+              type="text"
+              size="small"
+              onClick={() => nav(`/question/stat/${_id}`)}
+              disabled={!isPublished}
+            >
+              问卷统计
+            </Button>
+          </Space>
+        </div>
+
+        <div className={styles.right}>
+          <Space>
+            <Button
+              type="text"
+              icon={<StarOutlined />}
+              size="small"
+              onClick={changeStar}
+              // disabled={changeStarLoading}
+            >
+              {isStarState ? '取消标星' : '标星'}
+            </Button>
+            <Popconfirm
+              title="确定复制该问卷？"
+              okText="确定"
+              cancelText="取消"
+              // onConfirm={duplicate}
+            >
+              <Button
+                type="text"
+                icon={<CopyOutlined />}
+                size="small"
+                // disabled={duplicateLoading}
+              >
+                复制
+              </Button>
+            </Popconfirm>
+            <Button
+              type="text"
+              icon={<DeleteOutlined />}
+              size="small"
+              onClick={del}
+              // disabled={deleteLoading}
+            >
+              删除
+            </Button>
+          </Space>
+        </div>
+      </div>
     </div>
   )
 }

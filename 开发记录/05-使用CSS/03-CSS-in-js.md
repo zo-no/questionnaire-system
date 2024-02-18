@@ -12,10 +12,13 @@ https://styled-components.com/
 
 代码演示，参考 `components/Button3.tsx`
 
-## Styled-jsx
+## 6.7 Styled-jsx和emotion(了解其他css-in-js方案)
 
 https://github.com/vercel/styled-jsx#getting-started
 
 ## 优点
 
 CSS-in-js 能更灵活的支持动态样式，直接在 JS 中完成计算和样式切换。这比 css-module 更好。
+
+## 缺点
+JSX 中写 CSS 会让代码变得更加复杂，不利于维护。

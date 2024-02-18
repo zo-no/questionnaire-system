@@ -1,0 +1,23 @@
+.header {
+    padding: 0 24px;
+    color: #e8e8e8;
+
+    .left {
+        float: left;
+    }
+
+    .right {
+        float: right
+    }
+}
+
+.main {
+    min-height: calc(100vh - 64px - 65px);
+}
+
+.footer {
+    text-align: center;
+    background-image: linear-gradient(to top, #101414 0%, #060c13 100%);
+    border-top: 1px solid #e8e8e8;
+    color: rgb(200, 192, 248);
+}
