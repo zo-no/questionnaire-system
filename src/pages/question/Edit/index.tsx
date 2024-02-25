@@ -3,14 +3,16 @@
  * @Author      zono
  * @Description 编辑页
  * */
-import React, { FC } from 'react'
-import { useParams } from 'react-router-dom'
+import { FC } from 'react'
+
+import useLoadQuestionData from '../../../hooks/useLoadQuestionData'
 
 const Edit: FC = () => {
-  const { id = '' } = useParams()
+  const [loading, data] = useLoadQuestionData()
   return (
     <div>
-      <h2>Edit {id}</h2>
+      <h2>Edit</h2>
+      {loading ? '正在加载中' : `${JSON.stringify(data)}`}
     </div>
   )
 }

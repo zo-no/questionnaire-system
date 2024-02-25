@@ -23,9 +23,9 @@ const Home: FC = () => {
   // }, [])
 
   // useEffect(() => {
-  //   // fetch('/api/test')
-  //   //   .then(res => res.json())
-  //   //   .then(data => console.log('fetch data', data))
+  //   fetch('/api/question')
+  //     .then(res => res.json())
+  //     .then(data => console.log('fetch data', data))
   //   // axios.get('/api/test').then(res => console.log('axios data', res.data))
   // })
 
