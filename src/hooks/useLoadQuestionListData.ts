@@ -7,7 +7,11 @@ import { useSearchParams } from 'react-router-dom'
 
 import { getQuestionListService } from '../services/question'
 import { useRequest } from 'ahooks'
-import { LIST_SEARCH_PARAM_KEY } from '../constant/index'
+import {
+  LIST_SEARCH_PARAM_KEY,
+  LIST_PAGE_PARAM_KEY,
+  LIST_PAGE_SIZE_PARAM_KEY,
+} from '../constant/index'
 
 /**
  * 单个列表的详情数据的hook
@@ -20,8 +24,10 @@ function useLoadQuestionListData() {
   const { data, loading, error } = useRequest(
     async () => {
       const keyword = searchParams.get(LIST_SEARCH_PARAM_KEY) || ''
+      const page = searchParams.get(LIST_PAGE_PARAM_KEY) || ''
+      const pageSize = searchParams.get(LIST_PAGE_SIZE_PARAM_KEY) || ''
 
-      const data = await getQuestionListService({ keyword })
+      const data = await getQuestionListService({ keyword, page, pageSize })
       return data
     },
     {

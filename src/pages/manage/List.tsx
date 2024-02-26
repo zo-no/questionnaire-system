@@ -3,11 +3,10 @@ import React, { FC } from 'react'
 import QuestionCard from '../../components/QuestionCard'
 import styles from './common.module.scss'
 import { Typography, Spin } from 'antd'
-// import { produce } from 'immer'
-// import { getQuestionListService } from '../../services/question'
 import useLoadQuestionListData from '../../hooks/useLoadQuestionListData'
 import { useTitle } from 'ahooks'
 import ListSearch from '../../components/ListSearch'
+import ListPage from '../../components/ListPage'
 
 const { Title } = Typography
 
@@ -15,8 +14,11 @@ const List: FC = () => {
   useTitle('zono-我的问卷')
 
   const { data = {}, loading } = useLoadQuestionListData()
-  const { List = [], Total = 0 } = data
-  //设置模拟数据
+  const { List = [], total = 0 } = data
+  // const onShowSizeChange = function () {
+  //   sea
+  // }
+
   return (
     <>
       <div className={styles.header}>
@@ -39,7 +41,8 @@ const List: FC = () => {
             return <QuestionCard key={_id} {...q} />
           })}
       </div>
-      <div className={styles.footer}>合计 {Total} list-footer</div>
+      <ListPage total={total} />
+      <div className={styles.footer}>合计 {total} list-footer</div>
     </>
   )
 }
