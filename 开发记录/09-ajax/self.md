@@ -22,7 +22,7 @@ https://ahooks.js.org/zh-CN/hooks/use-request/index#%E5%BF%AB%E9%80%9F%E4%B8%8A%
 - typyscript的Partial泛型，可以把所有属性都变成可选的
 
 # 11-1
--[]再10-15的基础上添加page和pageSize两个查询字符串
+-[x]再10-15的基础上添加page和pageSize两个查询字符串
 # 11-2
 - [] 使用antd组件<Pagination>
 - [] 把该组件进行封装

@@ -13,28 +13,34 @@ import {
   LIST_PAGE_SIZE_PARAM_KEY,
 } from '../constant/index'
 
+type OptionType = {
+  isStar: boolean
+  isDeleted: boolean
+}
+
 /**
- * 单个列表的详情数据的hook
+ * 请求列表数据的hook
  * @param {type}
  * @returns
  * */
-function useLoadQuestionListData() {
+function useLoadQuestionListData(options: Partial<OptionType> = {}) {
+  const { isStar, isDeleted } = options
   const [searchParams] = useSearchParams()
 
-  const { data, loading, error } = useRequest(
+  const { data, loading, error, refresh } = useRequest(
     async () => {
       const keyword = searchParams.get(LIST_SEARCH_PARAM_KEY) || ''
       const page = searchParams.get(LIST_PAGE_PARAM_KEY) || ''
       const pageSize = searchParams.get(LIST_PAGE_SIZE_PARAM_KEY) || ''
 
-      const data = await getQuestionListService({ keyword, page, pageSize })
+      const data = await getQuestionListService({ keyword, isStar, isDeleted, page, pageSize })
       return data
     },
     {
       refreshDeps: [searchParams], // 当searchParams变化时重新请求
     }
   )
-  return { data, loading, error }
+  return { data, loading, error, refresh }
 }
 
 export default useLoadQuestionListData

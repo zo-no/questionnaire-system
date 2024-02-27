@@ -15,9 +15,6 @@ const List: FC = () => {
 
   const { data = {}, loading } = useLoadQuestionListData()
   const { List = [], total = 0 } = data
-  // const onShowSizeChange = function () {
-  //   sea
-  // }
 
   return (
     <>

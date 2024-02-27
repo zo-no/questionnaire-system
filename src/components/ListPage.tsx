@@ -12,6 +12,11 @@ type PropsType = {
   total: number
 }
 
+/**
+ * 分页栏组件
+ * @param {number} total - 总条数
+ * @returns
+ * */
 const ListPage: FC<PropsType> = (props: PropsType) => {
   const { total } = props
   const [current, setCurrent] = useState(1)

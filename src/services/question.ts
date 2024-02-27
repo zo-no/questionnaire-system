@@ -30,7 +30,6 @@ export async function getQuestionListService(
   opt: Partial<SearchOption> = {} // Partial<SearchOption>表示SearchOption的所有属性都是可选的
 ): Promise<ResDataType> {
   const data = (await axios.get('/api/question', { params: opt })) as ResDataType
-  console.log(opt)
-
+  // console.log(opt)
   return data
 }

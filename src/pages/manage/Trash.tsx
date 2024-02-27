@@ -1,11 +1,11 @@
 import React, { FC, useState } from 'react'
 import { useTitle } from 'ahooks'
-import { Typography, Table, Tag, Button, Space, Modal } from 'antd'
+import { Typography, Table, Tag, Button, Space, Modal, Empty, Spin } from 'antd'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 // import { useRequest } from 'ahooks'
-// import ListSearch from '../../components/ListSearch'
-// import ListPage from '../../components/ListPage'
-// import useLoadQuestionListData from '../../hooks/useLoadQuestionListData'
+import ListSearch from '../../components/ListSearch'
+import ListPage from '../../components/ListPage'
+import useLoadQuestionListData from '../../hooks/useLoadQuestionListData'
 // import { updateQuestionService, deleteQuestionsService } from '../../services/question'
 import styles from './common.module.scss'
 
@@ -15,28 +15,8 @@ const { confirm } = Modal
 const Trash: FC = () => {
   useTitle('zono问卷 - 回收站')
 
-  const rawQuestionList = [
-    {
-      id: 'q1',
-      title: '问卷1',
-      isPublished: false,
-      isStar: false,
-      answerCount: 5,
-      createAt: '3月10日 13:23',
-    },
-    {
-      id: 'q2',
-      title: '问卷2',
-      isPublished: true,
-      isStar: false,
-      answerCount: 0,
-      createAt: '3月10日 13:23',
-    },
-  ]
-
-  // const { data = {}, loading, refresh } = useLoadQuestionListData({ isDeleted: true })
-  // const { list = [], total = 0 } = data
-  const list = rawQuestionList
+  const { data = {}, loading } = useLoadQuestionListData({ isDeleted: true })
+  const { List = [], total = 0 } = data
 
   // 记录选中的 id
   const [selectedIds, setSelectedIds] = useState<string[]>([])
@@ -90,6 +70,7 @@ const Trash: FC = () => {
     })
   }
 
+  // 表格列
   const tableColumns = [
     {
       title: '标题',
@@ -113,7 +94,7 @@ const Trash: FC = () => {
     },
   ]
 
-  // 可以把 JSX 片段定义为一个变量
+  // 内容
   const TableElem = (
     <>
       <div style={{ marginBottom: '16px' }}>
@@ -128,10 +109,10 @@ const Trash: FC = () => {
       </div>
       <div style={{ border: '1px solid #e8e8e8' }}>
         <Table
-          dataSource={list}
+          dataSource={List}
           columns={tableColumns}
           pagination={false}
-          rowKey={q => q.id}
+          rowKey={q => q._id}
           rowSelection={{
             type: 'checkbox',
             onChange: selectedRowKeys => {
@@ -149,18 +130,22 @@ const Trash: FC = () => {
         <div className={styles.left}>
           <Title level={3}>回收站</Title>
         </div>
-        <div className={styles.right}>{/* <ListSearch /> */}</div>
+        <div className={styles.right}>
+          <ListSearch />
+        </div>
       </div>
+
       <div className={styles.content}>
-        {/* {loading && (
+        {loading && (
           <div style={{ textAlign: 'center' }}>
             <Spin />
           </div>
-        )} */}
-        {/* {!loading && list.length === 0 && <Empty description="暂无数据" />} */}
-        {list.length > 0 && TableElem}
+        )}
+        {!loading && List.length === 0 && <Empty description="暂无数据" />}
+        {List.length > 0 && TableElem}
       </div>
-      <div className={styles.footer}>{/* <ListPage total={total} /> */}</div>
+
+      <div className={styles.footer}>{List.length > 0 && <ListPage total={total} />}</div>
     </>
   )
 }
