@@ -1,12 +1,12 @@
 import React, { FC, useState } from 'react'
 import { useTitle } from 'ahooks'
-import { Typography, Table, Tag, Button, Space, Modal, Empty, Spin } from 'antd'
+import { Typography, Table, Tag, Button, Space, Modal, Empty, Spin, message } from 'antd'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
-// import { useRequest } from 'ahooks'
+import { useRequest } from 'ahooks'
 import ListSearch from '../../components/ListSearch'
 import ListPage from '../../components/ListPage'
 import useLoadQuestionListData from '../../hooks/useLoadQuestionListData'
-// import { updateQuestionService, deleteQuestionsService } from '../../services/question'
+import { updateQuestionService, deleteQuestionsService } from '../../services/question'
 import styles from './common.module.scss'
 
 const { Title } = Typography
@@ -15,58 +15,58 @@ const { confirm } = Modal
 const Trash: FC = () => {
   useTitle('zono问卷 - 回收站')
 
-  const { data = {}, loading } = useLoadQuestionListData({ isDeleted: true })
+  const { data = {}, loading, refresh } = useLoadQuestionListData({ isDeleted: true })
   const { List = [], total = 0 } = data
 
   // 记录选中的 id
-  const [selectedIds, setSelectedIds] = useState<string[]>([])
+  const [selectedIds, setSelectedIds] = useState<string[]>([]) // 选中的问卷 id
 
   // 恢复
-  // const { run: recover } = useRequest(
-  //   async () => {
-  //     for await (const id of selectedIds) {
-  //       await updateQuestionService(id, { isDeleted: false })
-  //     }
-  //   },
-  //   {
-  //     manual: true,
-  //     debounceWait: 500, // 防抖
-  //     onSuccess() {
-  //       message.success('恢复成功')
-  //       refresh() // 手动刷新列表
-  //       setSelectedIds([])
-  //     },
-  //   }
-  // )
+  const { run: recover } = useRequest(
+    async () => {
+      for await (const id of selectedIds) {
+        await updateQuestionService(id, { isDeleted: false })
+      }
+    },
+    {
+      manual: true,
+      debounceWait: 500, // 防抖
+      onSuccess() {
+        refresh() // 定义于useRequest的refresh，刷新数据
+        setSelectedIds([])
+        message.success('恢复成功')
+      },
+    }
+  )
 
-  const recover = () => {
-    confirm({
-      title: '确认恢复该问卷？',
-      icon: <ExclamationCircleOutlined />,
-      content: '恢复后可以在我的问卷中查看',
-      onOk: recover,
-    })
-  }
+  // const recover = () => {
+  //   confirm({
+  //     title: '确认恢复该问卷？',
+  //     icon: <ExclamationCircleOutlined />,
+  //     content: '恢复后可以在我的问卷中查看',
+  //     onOk: recover,
+  //   })
+  // }
 
   // 删除
-  // const { run: deleteQuestion } = useRequest(
-  //   async () => await deleteQuestionsService(selectedIds),
-  //   {
-  //     manual: true,
-  //     onSuccess() {
-  //       message.success('删除成功')
-  //       refresh()
-  //       setSelectedIds([])
-  //     },
-  //   }
-  // )
+  const { run: deleteQuestion } = useRequest(
+    async () => await deleteQuestionsService(selectedIds),
+    {
+      manual: true,
+      onSuccess() {
+        message.success('删除成功')
+        refresh() // 定义于useRequest的refresh，刷新数据
+        setSelectedIds([])
+      },
+    }
+  )
 
   function del() {
     confirm({
       title: '确认彻底删除该问卷？',
       icon: <ExclamationCircleOutlined />,
       content: '删除以后不可以找回',
-      // onOk: deleteQuestion,
+      onOk: deleteQuestion,
     })
   }
 
@@ -115,6 +115,7 @@ const Trash: FC = () => {
           rowKey={q => q._id}
           rowSelection={{
             type: 'checkbox',
+            //选中项发生变化时的回调
             onChange: selectedRowKeys => {
               setSelectedIds(selectedRowKeys as string[])
             },

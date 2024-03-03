@@ -5,14 +5,15 @@
  * */
 
 import React, { FC, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import { Typography, Space, Form, Input, Button, Checkbox } from 'antd'
+import { Link, useNavigate } from 'react-router-dom'
+import { Typography, Space, Form, Input, Button, Checkbox, message } from 'antd'
 import { UserAddOutlined } from '@ant-design/icons'
-// import { useRequest } from 'ahooks'
+import { useRequest } from 'ahooks'
 import { REGISTER_PATHNAME } from '../router'
-// import { loginService } from '../services/user'
-// import { setToken } from '../utils/user-token'
+import { loginService } from '../services/user'
+import { setToken } from '../utils/user-token'
 import styles from './Login.module.scss'
+import { MANAGE_INDEX_PATHNAME } from '../router'
 
 type loginType = {
   password?: string
@@ -44,41 +45,44 @@ function getUserInfoFromStorage() {
 }
 
 const Login: FC = () => {
-  // const nav = useNavigate()
-
-  const [form] = Form.useForm() // 第三方 hook
+  const nav = useNavigate()
+  const [form] = Form.useForm() // 第三方 hook, 用于表单的双向绑定
 
   useEffect(() => {
     const { username, password } = getUserInfoFromStorage()
     form.setFieldsValue({ username, password })
   }, [form])
 
-  // const { run } = useRequest(
-  //   async (username: string, password: string) => {
-  //     const data = await loginService(username, password)
-  //     return data
-  //   },
-  //   {
-  //     manual: true,
-  //     onSuccess(result) {
-  //       const { token = '' } = result
-  //       setToken(token) // 存储 token
+  // 请求后端
+  const { run } = useRequest(
+    async (username: string, password: string) => {
+      return await loginService(username, password)
+    },
+    {
+      manual: true,
+      onSuccess(result?: any) {
+        // data会返回token，这里可以存储token
+        const { token = '' } = result
+        setToken(token) // 存储 token
 
-  //       message.success('登录成功')
-  //       nav(MANAGE_INDEX_PATHNAME) // 导航到“我的问卷”
-  //     },
-  //   }
-  // )
+        message.success('登录成功')
+        nav(MANAGE_INDEX_PATHNAME) // 导航到“我的问卷”
+      },
+    }
+  )
 
+  // 表单提交
   const onFinish = (values: loginType) => {
     const { username, password, remember } = values || {}
 
-    // run(username, password) // 执行 ajax
+    run(username as string, password as string) // 执行 ajax
     console.log(values)
 
     if (remember) {
+      // 本地记住用户信息
       rememberUser(username as string, password as string)
     } else {
+      // 删除用户信息
       deleteUserFromStorage()
     }
   }
@@ -100,7 +104,7 @@ const Login: FC = () => {
           wrapperCol={{ span: 16 }}
           initialValues={{ remember: true }}
           onFinish={onFinish}
-          form={form}
+          form={form} // 表单双向绑定
         >
           <Form.Item
             label="用户名"
