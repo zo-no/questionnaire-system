@@ -6,12 +6,19 @@
 
 import React, { FC } from 'react'
 import { Outlet } from 'react-router-dom'
-import { Layout } from 'antd'
-import styles from './MainLayout.module.scss'
+import { Layout, Spin } from 'antd'
+
 import Logo from '../components/Logo'
 import UserInfo from '../components/UserInfo'
 
+import useLoadUserData from '../hooks/useLoadUserData'
+import useNavPage from '../hooks/useNavPage'
+import styles from './MainLayout.module.scss'
+
 const MainLayout: FC = () => {
+  const { waitingUserData } = useLoadUserData() //判断是否登录
+  useNavPage(waitingUserData)
+
   return (
     <Layout>
       <Layout.Header className={styles.header}>
@@ -23,7 +30,14 @@ const MainLayout: FC = () => {
         </div>
       </Layout.Header>
       <Layout.Content className={styles.main}>
-        <Outlet />
+        {/* 若在加载中，就不渲染 */}
+        {waitingUserData ? (
+          <div style={{ textAlign: 'center', marginTop: '60px' }}>
+            <Spin />
+          </div>
+        ) : (
+          <Outlet />
+        )}
       </Layout.Content>
       <Layout.Footer className={styles.footer}>
         zono问卷项目&copy;2023 - present. Created by zono
