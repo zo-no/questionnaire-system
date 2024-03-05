@@ -4,15 +4,64 @@
  * @Description 统计页
  * */
 import { FC } from 'react'
-
+import { useNavigate } from 'react-router-dom'
+import { Spin, Result, Button } from 'antd'
+import { useTitle } from 'ahooks'
 import useLoadQuestionData from '../../../hooks/useLoadQuestionData'
+import useGetPageInfo from '../../../hooks/useGetPageInfo'
+
+import StatHeader from './StatHeader'
+
+import styles from './index.module.scss'
 
 const Stat: FC = () => {
-  const [loading, data] = useLoadQuestionData()
+  const nav = useNavigate()
+  const [loading] = useLoadQuestionData()
+  const { title, isPublished } = useGetPageInfo()
+
+  // 修改标题
+  useTitle(`问卷统计 - ${title}`)
+  // loading 效果
+  const LoadingELem = (
+    <div style={{ textAlign: 'center', marginTop: '60px' }}>
+      <Spin />
+    </div>
+  )
+
+  // Content Elem
+  function genContentElem() {
+    if (typeof isPublished === 'boolean' && !isPublished) {
+      return (
+        <div style={{ flex: '1' }}>
+          <Result
+            status="warning"
+            title="该页面尚未发布"
+            extra={
+              <Button type="primary" onClick={() => nav(-1)}>
+                返回
+              </Button>
+            }
+          ></Result>
+        </div>
+      )
+    } else {
+      return (
+        <div className={styles.content}>
+          <div className={styles.left}>统计页面</div>
+          <div className={styles.main}>统计页面</div>
+          <div className={styles.right}>统计页面</div>
+        </div>
+      )
+    }
+  }
+
   return (
-    <div>
-      <h2>Stat</h2>
-      {loading ? '正在加载中' : `${JSON.stringify(data)}`}
+    <div className={styles.container}>
+      <StatHeader />
+      <div className={styles['content-wrapper']}>
+        {loading && LoadingELem}
+        {!loading && <div className={styles.content}>{genContentElem()}</div>}
+      </div>
     </div>
   )
 }

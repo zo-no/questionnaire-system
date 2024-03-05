@@ -10,8 +10,7 @@ const QuestionLayout: FC = () => {
   // 用户没有登录时，跳转到登录页
   useNavPage(waitingUserData)
   return (
-    <div>
-      <h2>QuestionLayout</h2>
+    <div style={{ height: '100vh' }}>
       {waitingUserData ? (
         <div style={{ textAlign: 'center', marginTop: '60px' }}>
           <Spin />
