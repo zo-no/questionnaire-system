@@ -3,14 +3,18 @@
  * @Author      zono
  * @Description 统计页
  * */
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Spin, Result, Button } from 'antd'
 import { useTitle } from 'ahooks'
+
 import useLoadQuestionData from '../../../hooks/useLoadQuestionData'
 import useGetPageInfo from '../../../hooks/useGetPageInfo'
 
 import StatHeader from './StatHeader'
+import ComponentList from './ComponentList'
+import PageStat from './PageStat'
+import ChartStat from './ChartStat'
 
 import styles from './index.module.scss'
 
@@ -18,6 +22,10 @@ const Stat: FC = () => {
   const nav = useNavigate()
   const [loading] = useLoadQuestionData()
   const { title, isPublished } = useGetPageInfo()
+
+  // 状态提升 selectedId type
+  const [selectedComponentId, setSelectedComponentId] = useState('')
+  const [selectedComponentType, setSelectedComponentType] = useState('')
 
   // 修改标题
   useTitle(`问卷统计 - ${title}`)
@@ -44,15 +52,31 @@ const Stat: FC = () => {
           ></Result>
         </div>
       )
-    } else {
-      return (
-        <div className={styles.content}>
-          <div className={styles.left}>统计页面</div>
-          <div className={styles.main}>统计页面</div>
-          <div className={styles.right}>统计页面</div>
-        </div>
-      )
     }
+    return (
+      <>
+        <div className={styles.left}>
+          <ComponentList
+            selectedComponentId={selectedComponentId}
+            setSelectedComponentId={setSelectedComponentId}
+            setSelectedComponentType={setSelectedComponentType}
+          />
+        </div>
+        <div className={styles.main}>
+          <PageStat
+            selectedComponentId={selectedComponentId}
+            setSelectedComponentId={setSelectedComponentId}
+            setSelectedComponentType={setSelectedComponentType}
+          />
+        </div>
+        <div className={styles.right}>
+          <ChartStat
+            selectedComponentId={selectedComponentId}
+            selectedComponentType={selectedComponentType}
+          />
+        </div>{' '}
+      </>
+    )
   }
 
   return (
