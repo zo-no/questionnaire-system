@@ -4,7 +4,7 @@
  * @Description 右侧显示的属性组件
  * */
 
-import { FC, useEffect } from 'react'
+import React, { FC, useEffect } from 'react'
 import { Form, Input } from 'antd'
 import { QuestionInputPropsType } from './interface'
 

@@ -6,6 +6,14 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:react-hooks/recommended',
   ],
+  overrides: [
+    {
+      files: ['**/*.test.js'],
+      env: {
+        jest: true,
+      },
+    },
+  ],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parser: '@typescript-eslint/parser',
   plugins: ['react-refresh'],

@@ -3,7 +3,7 @@
  * @Author      zono
  * @Description 统计页
  * */
-import { FC, useState } from 'react'
+import React, { FC, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Spin, Result, Button } from 'antd'
 import { useTitle } from 'ahooks'
@@ -38,7 +38,7 @@ const Stat: FC = () => {
 
   // Content Elem
   function genContentElem() {
-    if (typeof isPublished === 'boolean' && !isPublished) {
+    if (typeof isPublished === 'boolean' && !isPublished)
       return (
         <div style={{ flex: '1' }}>
           <Result
@@ -52,31 +52,32 @@ const Stat: FC = () => {
           ></Result>
         </div>
       )
-    }
-    return (
-      <>
-        <div className={styles.left}>
-          <ComponentList
-            selectedComponentId={selectedComponentId}
-            setSelectedComponentId={setSelectedComponentId}
-            setSelectedComponentType={setSelectedComponentType}
-          />
-        </div>
-        <div className={styles.main}>
-          <PageStat
-            selectedComponentId={selectedComponentId}
-            setSelectedComponentId={setSelectedComponentId}
-            setSelectedComponentType={setSelectedComponentType}
-          />
-        </div>
-        <div className={styles.right}>
-          <ChartStat
-            selectedComponentId={selectedComponentId}
-            selectedComponentType={selectedComponentType}
-          />
-        </div>{' '}
-      </>
-    )
+
+    if (typeof isPublished === 'boolean' && isPublished)
+      return (
+        <>
+          <div className={styles.left}>
+            <ComponentList
+              selectedComponentId={selectedComponentId}
+              setSelectedComponentId={setSelectedComponentId}
+              setSelectedComponentType={setSelectedComponentType}
+            />
+          </div>
+          <div className={styles.main}>
+            <PageStat
+              selectedComponentId={selectedComponentId}
+              setSelectedComponentId={setSelectedComponentId}
+              setSelectedComponentType={setSelectedComponentType}
+            />
+          </div>
+          <div className={styles.right}>
+            <ChartStat
+              selectedComponentId={selectedComponentId}
+              selectedComponentType={selectedComponentType}
+            />
+          </div>{' '}
+        </>
+      )
   }
 
   return (

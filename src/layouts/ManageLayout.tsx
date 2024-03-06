@@ -3,7 +3,7 @@
  * @Author      zono
  * @Description 管理布局
  * */
-import { FC } from 'react'
+import React, { FC } from 'react'
 import { Outlet, useNavigate, useLocation } from 'react-router-dom'
 import { Button, Space, Divider, message } from 'antd'
 import { PlusOutlined, BarsOutlined, StarOutlined, DeleteOutlined } from '@ant-design/icons'

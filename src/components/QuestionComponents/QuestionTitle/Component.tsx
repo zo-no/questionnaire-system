@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import React, { FC } from 'react'
 import { Typography } from 'antd'
 import { QuestionTitlePropsType, QuestionTitleDefaultProps } from './interface'
 

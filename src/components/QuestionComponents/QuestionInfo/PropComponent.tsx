@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react'
+import React, { FC, useEffect } from 'react'
 import { Form, Input } from 'antd'
 import { QuestionInfoPropsType } from './interface'
 

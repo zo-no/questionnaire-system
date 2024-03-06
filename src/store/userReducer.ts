@@ -21,9 +21,10 @@ export const userSlice = createSlice({
   initialState: INIT_STATE,
   reducers: {
     loginReducer: (state: UserStateType, action: PayloadAction<UserStateType>) => {
-      return action.payload // 设置 username nickname 到 redux store
-      // 用不到 immer
+      state = action.payload
+      return state // 设置 username nickname 到 redux store
     },
+
     logoutReducer: () => INIT_STATE,
   },
 })

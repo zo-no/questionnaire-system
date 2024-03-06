@@ -3,7 +3,7 @@
  * @Author      zono
  * @Description 画布页面
  * */
-import { FC } from 'react'
+import React, { FC } from 'react'
 import { Spin } from 'antd'
 import SortableContainer from '../../../components/DragSortable/SortableContainer'
 import SortableItem from '../../../components/DragSortable/SortableItem'

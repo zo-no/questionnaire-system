@@ -3,7 +3,7 @@
  * @Author      zono
  * @Description 统计答卷展示
  * */
-import { FC } from 'react'
+import React, { FC } from 'react'
 import useGetComponentInfo from '../../../hooks/useGetComponentInfo'
 import { getComponentConfByType } from '../../../components/QuestionComponents/index'
 import classNames from 'classnames'

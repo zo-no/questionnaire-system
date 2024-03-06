@@ -18,7 +18,7 @@ const INIT_STATE: PageInfoType = {
   desc: '',
   css: '',
   js: '',
-  isPublished: false,
+  isPublished: undefined,
 }
 
 export const pageInfoReducer = createSlice({
@@ -27,7 +27,8 @@ export const pageInfoReducer = createSlice({
   reducers: {
     // 设置页面信息
     resetPageInfo: (state: PageInfoType, action: PayloadAction<PageInfoType>) => {
-      return action.payload
+      state = action.payload
+      return state
     },
 
     // 修改标题

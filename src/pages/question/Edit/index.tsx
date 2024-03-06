@@ -3,7 +3,7 @@
  * @Author      zono
  * @Description 编辑页
  * */
-import { FC } from 'react'
+import React, { FC } from 'react'
 import { useDispatch } from 'react-redux'
 import { changeSelectedId } from '../../../store/componentsReducer'
 import useLoadQuestionData from '../../../hooks/useLoadQuestionData'

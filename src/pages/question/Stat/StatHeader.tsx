@@ -1,4 +1,4 @@
-import React, { FC, useRef } from 'react'
+import React, { FC, useMemo, useRef } from 'react'
 import { Space, Button, Typography, Input, Tooltip, message, Popover } from 'antd'
 import type { InputRef } from 'antd'
 import { CopyOutlined, QrcodeOutlined, LeftOutlined } from '@ant-design/icons'
@@ -25,7 +25,7 @@ const StatHeader: FC = () => {
   }
 
   // 生成链接和二维码组件
-  function genLinkAndQRCodeElem() {
+  const LinkAndQRCodeElem = useMemo(() => {
     if (!isPublished) return null
     // 拼接 url ，需要参考 C 端的规则
     const url = `http://localhost:3000/question/${id}`
@@ -51,20 +51,21 @@ const StatHeader: FC = () => {
         </Popover>
       </Space>
     )
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, isPublished, title])
 
   return (
     <div className={styles['header-wrapper']}>
       <div className={styles.header}>
         <div className={styles.left}>
           <Space>
-            <Button type="link" icon={<LeftOutlined />}>
+            <Button type="link" icon={<LeftOutlined />} onClick={() => nav(-1)}>
               返回
             </Button>
             <Title>{title}</Title>
           </Space>
         </div>
-        <div className={styles.main}>{genLinkAndQRCodeElem()}</div>
+        <div className={styles.main}>{LinkAndQRCodeElem}</div>
         <div className={styles.right}>
           <Button type="primary" onClick={() => nav(`/question/edit/${id}`)}>
             编辑问卷

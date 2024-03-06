@@ -29,7 +29,9 @@ const StatComponent: FC<QuestionRadioStatPropsType> = ({ stat = [] }) => {
             label={i => `${i.name}: ${format(i.count / sum)}%`}
           >
             {stat.map((i, index) => {
-              return <Cell key={index} fill={STAT_COLORS[index]} />
+              //TODO这个i不知该怎么处理
+              if (i) return <Cell key={index} fill={STAT_COLORS[index]} />
+              else return <Cell key={index} fill={STAT_COLORS[index]} />
             })}
           </Pie>
           <Tooltip />

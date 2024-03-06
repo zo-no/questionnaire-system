@@ -45,7 +45,8 @@ const componentsSlice = createSlice({
   reducers: {
     //重置所有组件
     resetComponents: (state: ComponentsStateType, action: PayloadAction<ComponentsStateType>) => {
-      return action.payload
+      state = action.payload
+      return state
     },
     // 修改 selectedId
     changeSelectedId: produce((draft: ComponentsStateType, action: PayloadAction<string>) => {
