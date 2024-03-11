@@ -41,7 +41,6 @@ function useNavPage(waitingUserData: boolean) {
     } else {
       nav(LOGIN_PATHNAME)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [waitingUserData, username, pathname])
 }
 

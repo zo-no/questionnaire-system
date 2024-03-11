@@ -51,7 +51,6 @@ const StatHeader: FC = () => {
         </Popover>
       </Space>
     )
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, isPublished, title])
 
   return (

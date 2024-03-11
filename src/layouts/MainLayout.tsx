@@ -40,7 +40,7 @@ const MainLayout: FC = () => {
         )}
       </Layout.Content>
       <Layout.Footer className={styles.footer}>
-        zono问卷项目&copy;2023 - present. Created by zono
+        zono问卷项目&copy;2024.2 - present. Created by zono
       </Layout.Footer>
     </Layout>
   )

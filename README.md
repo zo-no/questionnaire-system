@@ -1,30 +1,37 @@
-# React + TypeScript + Vite
+# ZONO问卷
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+这是一个仿问卷星的问卷编辑系统
+建议和mock库一起运行，由于登录会验证是否已经登录，所以需要mock库的支持
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+```c
+//src是工作目录
+src
+├── components -- 组件库
+│   ├── QuestionComponents -- 问卷组件，用于编辑问卷（可拓展）
+│   |   └── index.tsx -- 低代码实现寻找对应组件的逻辑主要在这里
+│   ├── DragSortable -- 拖拽组件库
+│   └── other -- 其他组件
+├── constant -- 常量
+├── hooks -- 自定义hooks
+|   ├── useGet... -- UI与redux交互
+|   ├── useLoad... -- ajax与redux交互
+|   └── useBindCanvasKeyPress -- 控制redux的状态，来控制画布的状态（快捷键）
+├── layout -- 布局
+├── pages -- 页面 
+|   ├── manage -- 问卷管理
+|   ├── question -- 问卷设计
+|   |   ├── Edit -- 编辑页
+|   |   └── Stat -- 统计页
+|   └── other -- 其他页面
+├── router -- 路由
+├── store -- redux
+├── story -- storybook可视化测试
+└── utils -- 工具库（token管理）
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## 项目启动
+
+```bash
+yarn install
+yarn start
+```

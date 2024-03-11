@@ -15,8 +15,7 @@ export function insertNewComponent(draft: ComponentsStateType, newComponent: Com
   // 找到选中的组件
   const index = componentList.findIndex(c => c.fe_id === selectedId)
 
-  if (index < 0)
-    draft.componentList.push(newComponent) // 未选中任何组件
+  if (index < 0) draft.componentList.push(newComponent) // 未选中任何组件
   else draft.componentList.splice(index + 1, 0, newComponent) // 选中了组件，插入到 index 后面
   draft.selectedId = newComponent.fe_id
 }

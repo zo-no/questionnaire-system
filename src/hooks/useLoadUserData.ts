@@ -39,7 +39,6 @@ function useLoadUserData() {
       return
     }
     run() // 如果 redux store 中没有用户信息，则进行加载
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [username])
 
   return { waitingUserData }
