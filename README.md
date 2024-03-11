@@ -1,7 +1,18 @@
 # ZONO问卷
 
 这是一个仿问卷星的问卷编辑系统
+
+## 项目启动
+
 建议和mock库一起运行，由于登录会验证是否已经登录，所以需要mock库的支持
+
+```bash
+# npm也行
+yarn install
+yarn start
+```
+
+## 项目结构
 
 ```c
 //src是工作目录
@@ -29,9 +40,4 @@ src
 └── utils -- 工具库（token管理）
 ```
 
-## 项目启动
 
-```bash
-yarn install
-yarn start
-```
