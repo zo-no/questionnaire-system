@@ -5,6 +5,33 @@
 > - 主程序（B端）：GitHub - zo-no/questionnaire-system: 模仿问卷星的项目
 > - c端：GitHub - zo-no/questionnaire-client: 仿问卷星的客户C端项目，使用Nextjs
 
+## 低代码实现逻辑
+低代码的实现逻辑
+用redux维护一个表单的componentList(有点像虚拟DOM)
+```js
+{
+    id: 'xxx',
+    title: '标题',
+    desc: '描述',
+    isStar: false,
+    isDeleted: false,
+    isPublished: false, // 是否发布
+    componentList: [], // 组件列表
+}
+```
+然后componentList中的每个组件又是一个组件数据结构，
+```js
+{
+    id: 'xxx',
+    type: 'questionInfo', // 组件类型，每个组件都固定
+    title: '组件标题', // 图层修改标题
+    isHidden: false,
+    isLocked: false,
+    props: {}, // 组件属性，如单选有多少个选项
+}
+每个组件都有一个对应的type(有点像fiber)，渲染时就根据type找到对应组件，然后渲染到画布上。
+```
+
 ## 项目技术栈
 ```c
 - react
