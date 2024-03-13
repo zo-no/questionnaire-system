@@ -1,7 +1,8 @@
 /**
  * @Date        2024/02/17 14:48:59
  * @Author      zono
- * @Description 管理布局
+ * @Description 问卷管理布局
+ * 可以添加新问卷，切换管理页
  * */
 import React, { FC } from 'react'
 import { Outlet, useNavigate, useLocation } from 'react-router-dom'
@@ -14,17 +15,6 @@ import styles from './ManageLayout.module.scss'
 const ManageLayout: FC = () => {
   const nav = useNavigate()
   const { pathname } = useLocation() //获取当前路径
-
-  // const [loading, setloading] = useState(false)
-  // async function handleCreateClick() {
-  //   setloading(true)
-  //   const { id } = (await createQuestionService()) || {}
-  //   if (id) {
-  //     nav(`/question/edit/${id}`)
-  //     message.success('create success')
-  //   }
-  //   setloading(false)
-  // }
 
   const {
     loading,
