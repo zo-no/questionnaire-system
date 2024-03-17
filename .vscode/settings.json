@@ -11,5 +11,6 @@
     "immer",
     "loadmore",
     "mockjs"
-  ]
+  ],
+  "docker.commands.runInteractive": "${containerCommand} run --rm -it ${exposedPorts} ${tag}"
 }

@@ -1,13 +1,27 @@
 # ZONO问卷
 
-这是一个仿问卷星的问卷编辑系统, 采用低代码的方式，通过拖拽和各种工具来编辑问卷，支持问卷管理、星标、回收站恢复、问卷的统计等功能。
+## 项目简介
+
+这是一个仿问卷星的低代码问卷编辑系统（GitHub - zo-no/questionnaire-system）。
+
+实现了B端（问卷管理后台）C端（问卷填写、搜集）Mock (模拟请求)。
+
+B端主要使用`react hook`和`ant design`搭配各种库完成，支持：
+1. 问卷管理功能，如：标星、删除、恢复
+2. 问卷编辑功能，创建、编辑、发布，这是最复杂的部分，实现了低代码编辑问卷，并还有拖拽、工具栏、快捷键等一系列功能。
+3. 问卷统计：显示问卷最后结果、图表统计、二维码...
+
+C端使用`nextjs`，实现了问卷的填写、提交、搜集功能。
+
+Mock使用`mockjs`，模拟了问卷的增删改查功能。
+
 > - mock：GitHub - zo-no/questionnaire-mock: 访问卷星项目的mock程序
 > - 主程序（B端）：GitHub - zo-no/questionnaire-system: 模仿问卷星的项目
 > - c端：GitHub - zo-no/questionnaire-client: 仿问卷星的客户C端项目，使用Nextjs
 
 ## 低代码实现逻辑
 低代码的实现逻辑
-用redux维护一个表单的componentList(有点像虚拟DOM)
+用redux维护一个组件表单的componentList(有点像虚拟DOM)，这是将要渲染到画布上组件的数据表
 ```js
 {
     id: 'xxx',
@@ -19,7 +33,7 @@
     componentList: [], // 组件列表
 }
 ```
-然后componentList中的每个组件又是一个组件数据结构，
+然后componentList中的每个组件都是一个对象，如：
 ```js
 {
     id: 'xxx',
@@ -30,8 +44,22 @@
     props: {}, // 组件属性，如单选有多少个选项
 }
 ```
-每个组件都有一个对应的type(有点像fiber的tag)，渲染时就根据type找到对应组件，然后渲染到画布上。
+可以看到每个组件都有一个对应的type(有点像fiber的tag)，渲染时就根据type找到对应组件，然后渲染到画布上。
 
+## 项目亮点
+项目简介：这是一个仿问卷星的低代码问卷编辑系统（GitHub - zo-no/questionnaire-system）, B端使用 react hook和 ant design搭配各种库完成，支持问卷管理功能（标星、删除、恢复），还可以进行问卷编辑（创建、编辑、发布）,发布后还有一个问卷统计页面（跳转C端，显示问卷调查结果）。C端使用 NextJS 实现了问卷填写和搜集功能。并编写了简单的 Mock程序来实现模拟请求后端。
+
+技术栈：React全家桶 、Ant design 、TypeScript、 Nextjs、Scss、Mock、Axios、dnd-kit等
+
+项目亮点：
+
+实现了低代码编辑问卷功能。使用`Redux`维护当前问卷画布需显示的组件列表，并在表示单个组件的对象上，维护一个`type标识`来从组件库中匹配对应组件，放入画布进行渲染。
+
+使用`ant design UI库`和`dnd-kit`封装了可拖拽组件库，并可拓展，只需要保证对应的组件文件夹格式，其中包含`表单显示组件`、`表单属性编辑组件`和`type标识管理`，便可使用问卷编辑页面所有的工具栏功能，此外还可以给每个组件加入`jest`来测试组件是否正常
+
+自定义多个`hooks`。封装`react`、`react route`、和`ahooks`库中的hook，并将hooks分为UI与redux交互、Ajax与redux交互两个部分。
+
+使用`Webpack`打包项目，对项目进行分包，使包体积都小于500kb。
 
 ## 项目技术栈
 ```c
@@ -57,6 +85,35 @@
 yarn install
 yarn start
 ```
+
+## 项目结构
+
+```c
+//src是工作目录
+src
+├── components -- 组件库
+│   ├── QuestionComponents -- 问卷组件，用于编辑问卷（可拓展）
+│   |   └── index.tsx -- 低代码实现寻找对应组件的逻辑主要在这里
+│   ├── DragSortable -- 拖拽组件库
+│   └── other -- 其他组件
+├── constant -- 常量
+├── hooks -- 自定义hooks
+|   ├── useGet... -- UI与redux交互
+|   ├── useLoad... -- ajax与redux交互
+|   └── useBindCanvasKeyPress -- 控制redux的状态，来控制画布的状态（快捷键）
+├── layout -- 布局
+├── pages -- 页面 
+|   ├── manage -- 问卷管理
+|   ├── question -- 问卷设计
+|   |   ├── Edit -- 编辑页
+|   |   └── Stat -- 统计页
+|   └── other -- 其他页面
+├── router -- 路由
+├── store -- redux
+├── story -- storybook可视化测试
+└── utils -- 工具库（token管理）
+```
+
 
 
 ## 页面对应的功能与路由
@@ -110,33 +167,6 @@ PS:🎈都有快捷键
 3. 右侧 图表统计
 ### 404
 
-## 项目结构
-
-```c
-//src是工作目录
-src
-├── components -- 组件库
-│   ├── QuestionComponents -- 问卷组件，用于编辑问卷（可拓展）
-│   |   └── index.tsx -- 低代码实现寻找对应组件的逻辑主要在这里
-│   ├── DragSortable -- 拖拽组件库
-│   └── other -- 其他组件
-├── constant -- 常量
-├── hooks -- 自定义hooks
-|   ├── useGet... -- UI与redux交互
-|   ├── useLoad... -- ajax与redux交互
-|   └── useBindCanvasKeyPress -- 控制redux的状态，来控制画布的状态（快捷键）
-├── layout -- 布局
-├── pages -- 页面 
-|   ├── manage -- 问卷管理
-|   ├── question -- 问卷设计
-|   |   ├── Edit -- 编辑页
-|   |   └── Stat -- 统计页
-|   └── other -- 其他页面
-├── router -- 路由
-├── store -- redux
-├── story -- storybook可视化测试
-└── utils -- 工具库（token管理）
-```
 
 ## 开发记录
 

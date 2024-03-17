@@ -2,6 +2,7 @@
  * @Date        2024/02/26 22:26:44
  * @Author      zono
  * @Description 分页栏组件
+ * @see https://ant.design/components/pagination-cn
  * */
 import React, { FC, useEffect, useState } from 'react'
 import { Pagination } from 'antd'
