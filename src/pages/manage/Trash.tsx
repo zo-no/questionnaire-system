@@ -1,3 +1,8 @@
+/**
+ * @Date        2024/03/17 16:59:16
+ * @Author      zono
+ * @Description 回收站问卷列表
+ * */
 import React, { FC, useState } from 'react'
 import { useTitle } from 'ahooks'
 import { Typography, Table, Tag, Button, Space, Modal, Empty, Spin, message } from 'antd'

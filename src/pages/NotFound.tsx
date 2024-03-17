@@ -1,3 +1,8 @@
+/**
+ * @Date        2024/03/17 17:00:32
+ * @Author      zono
+ * @Description 404页
+ * */
 import React, { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Result, Button } from 'antd'

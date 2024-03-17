@@ -1,3 +1,8 @@
+/**
+ * @Date        2024/03/17 16:57:59
+ * @Author      zono
+ * @Description 星标问卷管理页
+ * */
 import React, { FC } from 'react'
 import { useTitle } from 'ahooks'
 import { Typography, Spin, Empty } from 'antd'
